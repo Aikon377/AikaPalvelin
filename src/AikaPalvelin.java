@@ -186,6 +186,7 @@ public class AikaPalvelin {
      * @return vastaus kÃ¤yttÃ¤jÃ¤lle
      */
     String haePaatos(String komento, Yhteys yhteys) {
+        System.out.println("Päätös: ");
 
         try {
             Scanner sc = new Scanner(komento);
@@ -441,7 +442,12 @@ public class AikaPalvelin {
                         vastaus = lisaaAjat(komento, this);
                     } else if (komento.startsWith(AikaProto.A_PAATOS)) {
                         vastaus = haePaatos(komento, this);
-                    } else
+
+                    }
+                    else if (komento.startsWith(AikaProto.A_ONKOSOPIMISIA)){
+                        vastaus = String.valueOf(sopimiset);
+                    }
+                    else
                         vastaus = AikaProto.A_VIRHE;
 
                     // lÃ¤hetetÃ¤Ã¤n asiakkaalle toimnnon mukainen vastaus

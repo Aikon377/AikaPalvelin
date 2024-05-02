@@ -6,19 +6,12 @@
 // Vappuviikon tehtÃ¤vÃ¤t 33-35 julkaistaan myÃ¶s jo maanantaina.
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class AikaAsiakasAloitus {
+public class luoAsiakas {
 
     private static String tunnus = null;
     private static int viive = -1;
@@ -47,7 +40,7 @@ public class AikaAsiakasAloitus {
         }
 
 
-        AikaAsiakasAloitus a = new AikaAsiakasAloitus();
+        luoAsiakas a = new luoAsiakas();
 
         a.aloitaSopiminen(palvelimenOsoite, portti);
 
@@ -97,26 +90,13 @@ public class AikaAsiakasAloitus {
             // luetaan vastaus ja tarkistetaan tulos
             String vastaus = in.readLine();
 
-            if (vastaus.startsWith("2")) {
+            if (vastaus.startsWith("2"))
                 System.out.println("Ajansopiminen kÃ¤ynnistetty");
-
-                    // Jos aloitetaan ajansopiminen kutsutaan syötäManuaalisesti
-                    // josta saadaan lista joka sisältää päivämäärän ja kellonajan
-
-                    List<Integer> sopivaAika = syötäManuaalisestiAika(kayttaja);
-
-                    System.out.println("Lähetetään aika: " + formatDateTime(listToDateTime(sopivaAika)));
-
-
-                    out.print(AikaProto.A_SOPIVAT + " " + sopivaAika + AikaProto.EOL);
-                    out.flush();
-
-
-            }
             else
                 System.out.println("Ajansopimisen kÃ¤ynnistys ei onnistunut: " + vastaus);
 
             sock.close();
+
 
             // poikkeusten kÃ¤sittely
         } catch (Exception e) {
@@ -129,53 +109,6 @@ public class AikaAsiakasAloitus {
 
         return true;
 
-    }
-
-    public static List syötäManuaalisestiAika(BufferedReader reader){
-        String pvm;
-        String aika;
-        String aikaLista;
-        LocalDate localDate;
-        LocalTime localTime;
-        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd MM yyyy");
-        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH mm");
-
-        System.out.println("Anna sopiva aika");
-
-        System.out.println("Syötä päivämäärä. Anna vastaus muodossa 'DD MM YYYY': ");
-        try {
-            pvm = reader.readLine();
-            localDate = LocalDate.parse(pvm, formatterDate);
-
-        } catch (NumberFormatException | IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("Syötä kellonaika. Anna vastaus muodossa 'HH MM': ");
-        try {
-            aika = reader.readLine();
-            localTime = LocalTime.parse(aika, formatterTime);
-
-        } catch (NumberFormatException | IOException e) {
-            throw new RuntimeException(e);
-        }
-        aikaLista = pvm + " " + aika;
-        return AikaProto.stringToList(aikaLista);
-
-    }
-    public LocalDateTime listToDateTime(List<Integer> aikaLista){
-
-        LocalDateTime localDateTime = LocalDateTime.of(aikaLista.get(2), aikaLista.get(1), aikaLista.get(0), aikaLista.get(3), aikaLista.get(4));
-
-        return localDateTime;
-    }
-    public String formatDateTime(LocalDateTime localDateTime){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-        return localDateTime.format(dateTimeFormatter);
-    }
-
-    // otaYhteys()
-
-
+    }   // otaYhteys()
 
 }

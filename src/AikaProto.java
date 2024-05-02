@@ -49,6 +49,7 @@ import java.util.Scanner;
 public class AikaProto {
 
     public static final String A_ALOITA = "ALOITATAPAAMINEN:";
+    public static final String A_OLETUSOSOITE = "localhost";
     public static final String A_VIRHE = "500 VIRHE";
     public static final String A_KESKEN = "400 sopiminen on vielÃ¤ kesken";
     public static final String A_SOPIVAT = "MINUNAJAT:";
